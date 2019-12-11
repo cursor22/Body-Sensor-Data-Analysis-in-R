@@ -129,7 +129,7 @@ y_maxAcc$player_name <- yiwei
 
 ## Row Bind all individual data frames ##
 
-all_maxAcc <- rbind(a_maxAcc, d_maxAcc, j_maxAcc, s_maxAcc, y_maxAcc)
+all_maxAcc <- rbind(a_maxAcc, d_maxAcc, j_maxAcc, y_maxAcc)
 
 
 
