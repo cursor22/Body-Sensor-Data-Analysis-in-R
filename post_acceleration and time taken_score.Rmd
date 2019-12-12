@@ -1,0 +1,595 @@
+---
+title: "Acceleration and Time Taken df"
+author: EDM project
+output: html_notebook
+---
+
+```{r setup}
+library(stringr)
+library(dplyr)
+library(tidyr)
+```
+
+REARRANGED CODE CHUNKS:
+
+Pre-intervention:
+- David's code to gather maxacc
+- Transpose maxacc
+- Clean up scores
+- Transpose scores
+- Full df
+
+Post-intervention:
+- [placeholder for post_intervention_df] David's code to gather maxacc
+- Transpose maxacc
+- Clean up scores
+- Transpose scores
+- Full df
+
+```{r pre-intervention Davids code to gather maxacc}
+
+# Determined which time intervals to search by finding the four minimums on the vizualization
+# Must run 'pre_intervention.R' prior to running this code!
+
+## Find max acceleration for each of Alysandra's attempts ##
+
+ggplot(data = a_accm_pre, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+a_maxAcc_1 <- filter(pre_intervention_df, time < 10, player_name == alysandra)
+a_maxAcc_1 <- max(a_maxAcc_1$Y_value)  
+
+a_maxAcc_2 <- filter(pre_intervention_df, time > 10, time < 15, player_name == alysandra)
+a_maxAcc_2 <- max(a_maxAcc_2$Y_value)  
+
+a_maxAcc_3 <- filter(pre_intervention_df, time > 20, time < 25, player_name == alysandra)
+a_maxAcc_3 <- max(a_maxAcc_3$Y_value)  
+
+a_maxAcc_4 <- filter(pre_intervention_df, time > 25, time < 30, player_name == alysandra)
+a_maxAcc_4 <- max(a_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+a_maxAcc <- data.frame(a_maxAcc_1, a_maxAcc_2, a_maxAcc_3, a_maxAcc_4 )
+
+# Standardize column names
+
+colnames(a_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+alysandra <- rep("alysandra", length(a_maxAcc$maxAcc_1))
+a_maxAcc$player_name <- alysandra
+
+
+## Find max acceleration for each of David's attempts ##
+
+ggplot(data = d_accm_pre, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+d_maxAcc_1 <- filter(pre_intervention_df, time > 2, time < 5, player_name == david)
+d_maxAcc_1 <- max(d_maxAcc_1$Y_value)  
+
+d_maxAcc_2 <- filter(pre_intervention_df, time > 7, time < 10, player_name == david)
+d_maxAcc_2 <- max(d_maxAcc_2$Y_value)  
+
+d_maxAcc_3 <- filter(pre_intervention_df, time > 12, time < 15, player_name == david)
+d_maxAcc_3 <- max(d_maxAcc_3$Y_value)  
+
+d_maxAcc_4 <- filter(pre_intervention_df, time > 17, time < 20, player_name == david)
+d_maxAcc_4 <- max(d_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+d_maxAcc <- data.frame(d_maxAcc_1, d_maxAcc_2, d_maxAcc_3, d_maxAcc_4 )
+
+# Standardize column names
+
+colnames(d_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+david <- rep("david", length(d_maxAcc$maxAcc_1))
+d_maxAcc$player_name <- david
+
+## Find max acceleration for each of Joellyn's attempts ##
+
+ggplot(data = j_accm_pre, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+j_maxAcc_1 <- filter(pre_intervention_df, time > 0, time < 5, player_name == joellyn)
+j_maxAcc_1 <- max(j_maxAcc_1$Y_value)  
+
+j_maxAcc_2 <- filter(pre_intervention_df, time > 10, time < 15, player_name == joellyn)
+j_maxAcc_2 <- max(j_maxAcc_2$Y_value)  
+
+j_maxAcc_3 <- filter(pre_intervention_df, time > 20, time < 25, player_name == joellyn)
+j_maxAcc_3 <- max(j_maxAcc_3$Y_value)  
+
+j_maxAcc_4 <- filter(pre_intervention_df, time > 40, time < 45, player_name == joellyn)
+j_maxAcc_4 <- max(j_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+j_maxAcc <- data.frame(j_maxAcc_1, j_maxAcc_2, j_maxAcc_3, j_maxAcc_4 )
+
+# Standardize column names
+
+colnames(j_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+joellyn <- rep("joellyn", length(j_maxAcc$maxAcc_1))
+j_maxAcc$player_name <- joellyn
+
+## Find max acceleration for each of Shu-Yi's attempts ##
+
+ggplot(data = s_accm_pre, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+s_maxAcc_1 <- filter(pre_intervention_df, time > 0, time < 5, player_name == shuyi)
+s_maxAcc_1 <- max(s_maxAcc_1$Y_value)  
+
+s_maxAcc_2 <- filter(pre_intervention_df, time > 10, time < 15, player_name == shuyi)
+s_maxAcc_2 <- max(s_maxAcc_2$Y_value)  
+
+s_maxAcc_3 <- filter(pre_intervention_df, time > 15, time < 20, player_name == shuyi)
+s_maxAcc_3 <- max(s_maxAcc_3$Y_value)  
+
+s_maxAcc_4 <- filter(pre_intervention_df, time > 25, time < 30, player_name == shuyi)
+s_maxAcc_4 <- max(s_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+s_maxAcc <- data.frame(s_maxAcc_1, s_maxAcc_2, s_maxAcc_3, s_maxAcc_4 )
+
+# Standardize column names
+
+colnames(s_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+shuyi <- rep("shuyi", length(s_maxAcc$maxAcc_1))
+s_maxAcc$player_name <- shuyi
+
+## Find max acceleration for each of Yiwei's attempts ##
+
+ggplot(data = y_accm_pre, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+y_maxAcc_1 <- filter(pre_intervention_df, time > 0, time < 5, player_name == yiwei)
+y_maxAcc_1 <- max(y_maxAcc_1$Y_value)  
+
+y_maxAcc_2 <- filter(pre_intervention_df, time > 5, time < 10, player_name == yiwei)
+y_maxAcc_2 <- max(y_maxAcc_2$Y_value)  
+
+y_maxAcc_3 <- filter(pre_intervention_df, time > 10, time < 12, player_name == yiwei)
+y_maxAcc_3 <- max(y_maxAcc_3$Y_value)  
+
+y_maxAcc_4 <- filter(pre_intervention_df, time > 12, time < 15, player_name == yiwei)
+y_maxAcc_4 <- max(y_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+y_maxAcc <- data.frame(y_maxAcc_1, y_maxAcc_2, y_maxAcc_3, y_maxAcc_4 )
+
+# Standardize column names
+
+colnames(y_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+yiwei <- rep("yiwei", length(y_maxAcc$maxAcc_1))
+y_maxAcc$player_name <- yiwei
+
+
+## Row Bind all individual data frames ##
+
+all_maxAcc <- rbind(a_maxAcc, d_maxAcc, j_maxAcc, s_maxAcc, y_maxAcc)
+
+```
+
+```{r pre-intervention transpose maxacc}
+
+#transpose maxacc df
+df_full_temp <- as.data.frame(t(as.matrix(all_maxAcc)))
+
+#remove names row
+df_full_temp_withoutnames <- df_full_temp[-nrow(df_full_temp),]
+
+#creating null df in order to do for loop
+df_done <- NULL
+
+#for loop to rbind it into a df
+for(i in 1:ncol(df_full_temp_withoutnames)){
+  temp <- select(df_full_temp_withoutnames, i)
+  colnames(temp) <- "Y_value"
+  df_done <- rbind(df_done, temp)
+} 
+
+#add names column
+df_done$player[1:4] <- as.character(df_full_temp[5,1])
+df_done$player[5:8] <- as.character(df_full_temp[5,2])
+df_done$player[9:12] <- as.character(df_full_temp[5,3])
+df_done$player[13:16] <- as.character(df_full_temp[5,4])
+df_done$player[17:20] <- as.character(df_full_temp[5,5])
+
+```
+
+```{r pre-intervention clean up scores}
+
+score_csv <- read.csv("Scores.csv")
+
+#Pre-intervention
+
+#Alysandra: X3
+#David: X2
+#Joellyn: X2
+#Shu-Yi: X3
+#Yiwei: X3
+
+#select columns relevant to trials, extract and separate into multiple columns
+pre_df <- score_csv %>%
+  select(X, X2, X3) %>%
+  separate(X2, c("11", "12", "13", "14"), sep=",") %>%
+  separate(X3, c("21", "22", "23", "24"), sep=",")
+
+#extract numerics
+for(i in 2:ncol(pre_df)) {
+  pre_df[,i] <- str_extract(as.matrix(pre_df[,i]), "[0-9]")
+}
+
+#choose the right trial for each person
+aly <- pre_df %>%
+  filter(X == "Alysandra") %>%
+  select(1, 6:9)
+colnames(aly) <- c("name", 1,2,3,4)
+
+david <- pre_df %>%
+  filter(X == "David") %>%
+  select(1, 2:5)
+colnames(david) <- c("name", 1,2,3,4)
+
+jo <- pre_df %>%
+  filter(X == "Joellyn") %>%
+  select(1, 2:5)
+colnames(jo) <- c("name", 1,2,3,4)
+
+shuyi <- pre_df %>%
+  filter(X == "Shu-Yi") %>%
+  select(1, 6:9)
+colnames(shuyi) <- c("name", 1,2,3,4)
+
+yiwei <- pre_df %>%
+  filter(X == "Yiwei") %>%
+  select(1, 6:9)
+colnames(yiwei) <- c("name", 1,2,3,4)
+
+#rbind the correct trials
+pre_df_score <- rbind(aly, jo, david, shuyi, yiwei)
+#rbind in a different order from maxacc, therefore needed rearranging code in the above code chunk.
+
+#This is used for the code chunk above
+View(pre_df_score)
+
+```
+
+```{r pre-intervention transpose scores}
+
+#transpose score df
+df_score_temp <- as.data.frame(t(as.matrix(pre_df_score)))
+
+#rearrange ordering of names to match with maxacc df
+df_score_temp <- df_score_temp %>%
+  select("V1", "V3", "V2", "V4", "V5") 
+
+#remove names row
+df_score_temp_nonames <- df_score_temp[-1,]
+
+#creating null df in order to do for loop
+df_score_done <- NULL
+
+#for loop to rbind scores
+for(i in 1:ncol(df_score_temp_nonames)){
+  temp <- select(df_score_temp_nonames, i)
+  colnames(temp) <- "score"
+  df_score_done <- rbind(df_score_done, temp)
+} 
+
+```
+
+```{r pre-intervention full df}
+
+#cbind maxacc with scores
+df_usethis <- cbind(df_done, df_score_done)
+
+#rearranging columns for better usability
+df_usethis <- df_usethis %>%
+  select("player", "Y_value", "score")
+
+#USE THIS TABLE
+View(df_usethis)
+
+lm.pre <- lm(score ~ Y_value, data=df_usethis)
+summary(lm.pre)
+
+df_usethis$score <- as.numeric(df_usethis$score)
+df_usethis$Y_value <- as.numeric(df_usethis$Y_value)
+
+```
+
+```{r post-intervention Davids code to gather maxacc}
+
+a_maxAcc_1 <- filter(post_intervention_df, time < 10, player_name == alysandra)
+a_maxAcc_1 <- max(a_maxAcc_1$Y_value)  
+
+a_maxAcc_2 <- filter(post_intervention_df, time > 10, time < 15, player_name == alysandra)
+a_maxAcc_2 <- max(a_maxAcc_2$Y_value)  
+
+a_maxAcc_3 <- filter(post_intervention_df, time > 20, time < 25, player_name == alysandra)
+a_maxAcc_3 <- max(a_maxAcc_3$Y_value)  
+
+a_maxAcc_4 <- filter(post_intervention_df, time > 30, time < 35, player_name == alysandra)
+a_maxAcc_4 <- max(a_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+a_maxAcc <- data.frame(a_maxAcc_1, a_maxAcc_2, a_maxAcc_3, a_maxAcc_4 )
+
+# Standardize column names
+
+colnames(a_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+alysandra <- rep("alysandra", length(a_maxAcc$maxAcc_1))
+a_maxAcc$player_name <- alysandra
+
+
+## Find max acceleration for each of David's attempts ##
+
+ggplot(data = d_accm_post, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+d_maxAcc_1 <- filter(post_intervention_df, time > 0, time < 5, player_name == david)
+d_maxAcc_1 <- max(d_maxAcc_1$Y_value)  
+
+d_maxAcc_2 <- filter(post_intervention_df, time > 5, time < 7.5, player_name == david)
+d_maxAcc_2 <- max(d_maxAcc_2$Y_value)  
+
+d_maxAcc_3 <- filter(post_intervention_df, time > 10, time < 12.5, player_name == david)
+d_maxAcc_3 <- max(d_maxAcc_3$Y_value)  
+
+d_maxAcc_4 <- filter(post_intervention_df, time > 16, time < 18, player_name == david)
+d_maxAcc_4 <- max(d_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+d_maxAcc <- data.frame(d_maxAcc_1, d_maxAcc_2, d_maxAcc_3, d_maxAcc_4 )
+
+# Standardize column names
+
+colnames(d_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+david <- rep("david", length(d_maxAcc$maxAcc_1))
+d_maxAcc$player_name <- david
+
+## Find max acceleration for each of Joellyn's attempts ##
+
+ggplot(data = j_accm_post, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+j_maxAcc_1 <- filter(post_intervention_df, time > 2, time < 10, player_name == joellyn)
+j_maxAcc_1 <- max(j_maxAcc_1$Y_value)  
+
+j_maxAcc_2 <- filter(post_intervention_df, time > 10, time < 15, player_name == joellyn)
+j_maxAcc_2 <- max(j_maxAcc_2$Y_value)  
+
+j_maxAcc_3 <- filter(post_intervention_df, time > 20, time < 25, player_name == joellyn)
+j_maxAcc_3 <- max(j_maxAcc_3$Y_value)  
+
+j_maxAcc_4 <- filter(post_intervention_df, time > 30, time < 35, player_name == joellyn)
+j_maxAcc_4 <- max(j_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+j_maxAcc <- data.frame(j_maxAcc_1, j_maxAcc_2, j_maxAcc_3, j_maxAcc_4 )
+
+# Standardize column names
+
+colnames(j_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+joellyn <- rep("joellyn", length(j_maxAcc$maxAcc_1))
+j_maxAcc$player_name <- joellyn
+
+## Find max acceleration for each of Yiwei's attempts ##
+
+ggplot(data = y_accm_post, mapping = aes(x = time, y = Y_value)) +
+  geom_point() +
+  geom_smooth()
+
+y_maxAcc_1 <- filter(post_intervention_df, time > 0, time < 5, player_name == yiwei)
+y_maxAcc_1 <- max(y_maxAcc_1$Y_value)  
+
+y_maxAcc_2 <- filter(post_intervention_df, time > 5, time < 10, player_name == yiwei)
+y_maxAcc_2 <- max(y_maxAcc_2$Y_value)  
+
+y_maxAcc_3 <- filter(post_intervention_df, time > 10, time < 15, player_name == yiwei)
+y_maxAcc_3 <- max(y_maxAcc_3$Y_value)  
+
+y_maxAcc_4 <- filter(post_intervention_df, time > 15, time < 20, player_name == yiwei)
+y_maxAcc_4 <- max(y_maxAcc_4$Y_value)  
+
+# Create a data frame for the max acceleration
+
+y_maxAcc <- data.frame(y_maxAcc_1, y_maxAcc_2, y_maxAcc_3, y_maxAcc_4 )
+
+# Standardize column names
+
+colnames(y_maxAcc) <- c("maxAcc_1", "maxAcc_2", "maxAcc_3", "maxAcc_4")
+
+# Add a column for player name
+
+yiwei <- rep("yiwei", length(y_maxAcc$maxAcc_1))
+y_maxAcc$player_name <- yiwei
+
+
+## Row Bind all individual data frames ##
+
+all_maxAcc <- rbind(a_maxAcc, d_maxAcc, j_maxAcc, y_maxAcc)
+
+```
+
+```{r post-intervention transpose score}
+
+#transpose maxacc df
+df_full_tempp <- as.data.frame(t(as.matrix(all_maxAcc)))
+
+#remove names row
+df_full_temp_withoutnamesp <- df_full_tempp[-nrow(df_full_tempp),]
+
+#creating null df in order to do for loop
+df_donep <- NULL
+
+#for loop to rbind it into a df
+for(i in 1:ncol(df_full_temp_withoutnamesp)){
+  tempp <- select(df_full_temp_withoutnamesp, i)
+  colnames(tempp) <- "Y_value"
+  df_donep <- rbind(df_donep, tempp)
+} 
+
+#add names column
+df_donep$player[1:4] <- as.character(df_full_tempp[5,1])
+df_donep$player[5:8] <- as.character(df_full_tempp[5,2])
+df_donep$player[9:12] <- as.character(df_full_tempp[5,3])
+df_donep$player[13:16] <- as.character(df_full_tempp[5,4])
+
+```
+
+```{r post-intervention clean up scores}
+
+score_csv <- read.csv("Scores.csv")
+
+#Post-intervention
+
+#Alysandra: X6
+#David: X6
+#Joellyn: X5
+#Shu-Yi: N.A.
+#Yiwei: X6
+
+post_df <- score_csv %>%
+  select(X, X5, X6) %>%
+  filter(X != "Shu-Yi") %>%
+  separate(X5, c("11", "12", "13", "14"), sep=",") %>%
+  separate(X6, c("21", "22", "23", "24"), sep=",")
+
+for(i in 2:ncol(post_df)) {
+  post_df[,i] <- str_extract(as.matrix(post_df[,i]), "[0-9]")
+}
+
+#choose the right trial for each person
+alyp <- post_df %>%
+  filter(X == "Alysandra") %>%
+  select(1, 6:9)
+colnames(alyp) <- c("name", 1,2,3,4)
+
+davidp <- post_df %>%
+  filter(X == "David") %>%
+  select(1, 6:9)
+colnames(davidp) <- c("name", 1,2,3,4)
+
+jop <- post_df %>%
+  filter(X == "Joellyn") %>%
+  select(1, 2:5)
+colnames(jop) <- c("name", 1,2,3,4)
+
+yiweip <- post_df %>%
+  filter(X == "Yiwei") %>%
+  select(1, 6:9)
+colnames(yiweip) <- c("name", 1,2,3,4)
+
+#rbind the correct trials
+post_df_score <- rbind(alyp, davidp, jop, yiweip)
+
+#This is used for the code chunk above
+View(post_df_score)
+
+```
+
+```{r post-intervention transpose scores}
+
+#transpose score df
+df_score_tempp <- as.data.frame(t(as.matrix(post_df_score)))
+
+#dont need to rearrange columns for post, since I ordered it right in the score df
+
+#remove names row
+df_score_temp_nonamesp <- df_score_tempp[-1,]
+
+#creating null df in order to do for loop
+df_score_donep <- NULL
+
+#for loop to rbind scores
+for(i in 1:ncol(df_score_temp_nonamesp)){
+  tempp <- select(df_score_temp_nonamesp, i)
+  colnames(tempp) <- "score"
+  df_score_donep <- rbind(df_score_donep, tempp)
+} 
+
+```
+
+```{r post-intervention full df}
+
+#cbind maxacc with scores
+df_usethis_post <- cbind(df_donep, df_score_donep)
+
+#rearranging columns for better usability
+df_usethis_post <- df_usethis_post %>%
+  select("player", "Y_value", "score")
+
+#USE THIS TABLE
+View(df_usethis_post)
+
+```
+
+```{r}
+df_usethis_post$Y_value <- as.numeric(as.character(df_usethis_post$Y_value))
+df_usethis_post$score <- as.numeric(as.character(df_usethis_post$score))
+
+mean(df_usethis_post$Y_value)
+mean(df_usethis_post$score)
+
+aly_mean_Y_post <- mean(df_usethis_post$Y_value[1:4])
+aly_mean_score_post <- mean(df_usethis_post$score[1:4])
+aly_mean_Y_post
+aly_mean_score_post
+
+dav_mean_Y_post <- mean(df_usethis_post$Y_value[5:8])
+dav_mean_score_post <- mean(df_usethis_post$score[5:8])
+dav_mean_Y_post
+dav_mean_score_post
+
+joe_mean_Y_post <- mean(df_usethis_post$Y_value[9:12])
+joe_mean_score_post <- mean(df_usethis_post$score[9:12])
+joe_mean_Y_post
+joe_mean_score_post
+
+yi_mean_Y_post <- mean(df_usethis_post$Y_value[13:16])
+yi_mean_score_post <- mean(df_usethis_post$score[13:16])
+yi_mean_Y_post
+yi_mean_score_post
+
+```
+
